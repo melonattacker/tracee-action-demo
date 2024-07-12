@@ -1,0 +1,46 @@
+name: 'Aqua Tracee'
+description: 'Protect your GitHub Actions pipelines with eBPF profiling'
+author: 'Aqua Security'
+inputs:
+  envs:
+    description: 'include environment variables in executable profile'
+    required: false
+    default: 'false'
+runs:
+  using: 'composite'
+  steps:
+  - shell: bash
+    run: |
+      echo "creating runner policy"
+      runner_pid=$(pgrep Runner.Listener)
+      sed -e "s/\$RUNNER_PID/$runner_pid/" ${{github.action_path}}/policies/runner.yaml.tmpl > ${{github.action_path}}/policies/runner.yaml
+      echo "creating file_write policy"
+      sed -e "s|\$WORKSPACE|${{github.workspace}}\/*|" ${{github.action_path}}/policies/file_writes.yaml.tmpl > ${{github.action_path}}/policies/file_writes.yaml
+      sed -e "s|\$WORKSPACE|${{github.workspace}}\/*|" ${{github.action_path}}/policies/signatures.yaml.tmpl > ${{github.action_path}}/policies/signatures.yaml
+      trace_env=$(if [ "${{inputs.envs}}" = "true" ]; then echo "--output option:exec-env"; fi)
+      docker pull aquasec/tracee:0.17.1
+      docker run -d --name tracee --rm -p 3366:3366 \
+      --privileged --pid=host --cgroupns=host \
+      -e LIBBPFGO_OSRELEASE_FILE=/etc/os-release-host \
+      -v /proc:/proc \
+      -v /boot:/boot \
+      -v /lib/modules/:/lib/modules/:ro \
+      -v /etc/os-release:/etc/os-release-host:ro \
+      -v /tmp/tracee/:/tmp/tracee \
+      -v /usr/src:/usr/src:ro \
+      -v ${{github.action_path}}/signatures/file_write.rego:/tracee/signatures/file_write.rego \
+      -v ${{github.action_path}}/signatures/miner_domain.rego:/tracee/signatures/miner_domain.rego \
+      -v ${{github.action_path}}/policies:/tracee/policies \
+      aquasec/tracee:0.17.1 \
+      -p /tracee/policies \
+      --healthz \
+      --output option:exec-hash $trace_env \
+      --output json:/tmp/tracee/out/trace_$GITHUB_RUN_ID.jsonl
+      echo -n "Waiting for Tracee to start..."
+      while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3366/healthz)" != "200" ]]
+      do
+          echo -n "."
+          sleep 1
+      done
+      sleep 1
+      echo "" #newline

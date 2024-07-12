@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  sample-job:
+    permissions:
+      pull-requests: write
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: Start Tracee
+      uses: ./.github/actions/start
+    - name : Do something
+      run: |
+        echo "hoge" > ./hoge.txt
+        dig example.com
+    - name: Stop Tracee
+      uses: ./.github/actions/stop

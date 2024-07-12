@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+trace_file="$1"
+config_file="$2"
+output_dir="$3"
+
+jq -s -f ./exec.jq --slurpfile "config" "$config_file" "$trace_file" > "$output_dir/profile-exec.json"
+jq -s -f ./dns.jq --slurpfile "config" "$config_file" "$trace_file" > "$output_dir/profile-dns.json"
+jq -s -f ./writes.jq --slurpfile "config" "$config_file" --arg github_workspace "$GITHUB_WORKSPACE" "$trace_file" > "$output_dir/profile-writes.json"
+jq -c -s -f ./signatures.jq --slurpfile "config" "$config_file" "$trace_file" > "$output_dir/signatures.jsonl"

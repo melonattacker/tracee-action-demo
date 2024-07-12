@@ -1,0 +1,52 @@
+name: 'Aqua Tracee'
+description: 'Protect your GitHub Actions pipelines with eBPF profiling'
+author: 'Aqua Security'
+inputs:
+  fail-on-diff:
+    description: "Fails the action if profile deviation found"
+    required: false
+    default: 'false'
+  create-pr:
+    description: "Creates a PR to the default branch with profile differences if found"
+    required: false
+    default: 'false'
+runs:
+  using: 'composite'
+  steps:
+  - shell: bash
+    run: |
+      echo "Stopping Tracee..."
+      docker stop tracee
+  - shell: bash
+    working-directory: ${{github.action_path}}/profile
+    run: |
+      echo "Generating profile..."
+      mkdir /tmp/tracee-action
+      profile_config="${{github.workspace}}/.tracee/profile-config.json"
+      if [[ ! -f "$profile_config" ]]; then
+        profile_config="${{github.action_path}}/profile/profile-config.json"
+      fi
+      ./profile-gen /tmp/tracee/out/trace_$GITHUB_RUN_ID.jsonl "$profile_config" /tmp/tracee-action
+  - shell: bash
+    run: |
+      echo "Checking if signatures were triggered..."
+      if [[ -s /tmp/tracee-action/signatures.jsonl ]]; then
+        if ${{ github.event_name == 'pull_request' }}; then
+          echo "Creating PR comment with triggered signatures"
+          ${{github.action_path}}/create-pr-comment.sh ${{ github.token }}
+        else
+          echo "Printing triggered signatures"
+          cat /tmp/tracee-action/signatures.jsonl  
+        fi
+      fi
+  - shell: bash
+    run: |
+      echo "Checking profile..."
+      rc=0
+      ${{github.action_path}}/check.sh /tmp/tracee-action/profile-exec.json ./.tracee/profile-exec.json ${{ github.token }} ${{ inputs.create-pr }} || rc=$((rc+1))
+      ${{github.action_path}}/check.sh /tmp/tracee-action/profile-dns.json ./.tracee/profile-dns.json ${{ github.token }} ${{ inputs.create-pr }} || rc=$((rc+1))
+      ${{github.action_path}}/check.sh /tmp/tracee-action/profile-writes.json ./.tracee/profile-writes.json ${{ github.token }} ${{ inputs.create-pr }} || rc=$((rc+1))
+      if [ "${{ inputs.fail-on-diff }}" == "true" ]; then
+        echo "***FAILING DUE TO PROFILE DEVIATION***" 
+        exit $rc
+      fi
