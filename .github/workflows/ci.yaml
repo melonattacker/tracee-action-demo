@@ -18,6 +18,7 @@ jobs:
     - name : Do something
       run: |
         echo "hoge" > ./hoge.txt
+        cat hoge.txt
         dig example.com
     - name: Stop Tracee
       uses: ./.github/actions/stop
