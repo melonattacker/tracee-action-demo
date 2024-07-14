@@ -16,10 +16,10 @@ tracee_selected_events[eventSelector] {
 	}
 }
 
-tracee_match = res {
+tracee_match {
 	input.eventName == "security_socket_sendmsg"
 	data := helpers.get_tracee_argument("data")
-	secrets := {"hoge"} 
+	secrets := {"hoge"}
 	secret_found := false
 	# secrets 内のどれかが data に含まれていれば secret_found を true にする
 	secret_found = true {
