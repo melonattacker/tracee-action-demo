@@ -20,6 +20,11 @@ tracee_match = res {
 	input.eventName == "security_socket_sendmsg"
 	data := helpers.get_tracee_argument("data")
 	secrets := {"hoge"} 
-	secret_found := any(secret in secrets; contains(data, secret))
+	secret_found := false
+	# secrets 内のどれかが data に含まれていれば secret_found を true にする
+	secret_found = true {
+		secret := secrets[_]
+		contains(data, secret)
+	}
 	secret_found
 }
