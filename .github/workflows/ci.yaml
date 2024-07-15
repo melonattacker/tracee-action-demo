@@ -13,11 +13,13 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v4
+    - name : check
+      run: |
+        ls ${{github.action_path}}/policies
     - name: Start Tracee
       uses: ./.github/actions/start
     - name : Do something
       run: |
-        ls ${{github.action_path}}/policies
         echo "hoge" > /tmp/hoge.txt
     - name: Stop Tracee
       uses: ./.github/actions/stop
