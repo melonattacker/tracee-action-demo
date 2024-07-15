@@ -7,7 +7,7 @@
     "process_args": [
       "/bin/bash",
       "-c",
-      "echo 'huga'"
+      "echo 'hoge'"
     ],
     "process_env": null
   }
