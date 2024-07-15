@@ -26,6 +26,7 @@ runs:
       if [[ ! -f "$profile_config" ]]; then
         profile_config="${{github.action_path}}/profile/profile-config.json"
       fi
+      cat /tmp/tracee/out/trace_$GITHUB_RUN_ID.jsonl
       ./profile-gen /tmp/tracee/out/trace_$GITHUB_RUN_ID.jsonl "$profile_config" /tmp/tracee-action
   - shell: bash
     run: |
