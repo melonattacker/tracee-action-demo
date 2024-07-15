@@ -13,9 +13,9 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v4
-    - name : check
+    - name: Check
       env:
-        GITHUB_ACTION_PATH: ${{github.action_path}}
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
       run: |
         ls $GITHUB_ACTION_PATH/policies
     - name: Start Tracee
