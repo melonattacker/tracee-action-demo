@@ -11,6 +11,7 @@ runs:
   steps:
   - shell: bash
     run: |
+      ls ${{github.action_path}}/policies
       echo "creating runner policy"
       runner_pid=$(pgrep Runner.Listener)
       trace_env=$(if [ "${{inputs.envs}}" = "true" ]; then echo "--output option:exec-env"; fi)
