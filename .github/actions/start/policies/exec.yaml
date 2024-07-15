@@ -1,0 +1,11 @@
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: exec
+  annotations:
+    description: trace exec events
+spec:
+  scope:
+    - global
+  rules:
+    - event: sched_process_exec

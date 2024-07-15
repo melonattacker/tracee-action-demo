@@ -1,18 +1,11 @@
 {
     "args_discard": [
-      "/home/runner/work/_temp/"
     ],
     "env_discard": [
-      "RUNNER_TRACKING_ID",
-      "SYSTEMD_EXEC_PID",
-      "INVOCATION_ID",
-      "JOURNAL_STREAM",
-      "GITHUB_"
-      ],
+    ],
     "args_discard_pair": [
     ],
     "dns_discard": [
-        "pipelines.actions.githubusercontent.com"
     ],
     "binary_sha256_discard":[
     ]

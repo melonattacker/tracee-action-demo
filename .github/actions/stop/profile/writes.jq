@@ -2,7 +2,6 @@ def getarg(name): .args[] | select(.name == name) | .value;
 
 [
   .[] | 
-  select(.eventName=="file_write") | 
-  getarg("pathname") |
-  ltrimstr($github_workspace + "/")
+  select(.eventName=="file_modification") |
+  getarg("file_path")
 ] | unique
