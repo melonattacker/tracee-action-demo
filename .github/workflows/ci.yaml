@@ -21,3 +21,6 @@ jobs:
         dig miner1.example.com
     - name: Stop Tracee
       uses: ./.github/actions/stop
+      with:
+        fail-on-diff: true
+        create-pr: true
