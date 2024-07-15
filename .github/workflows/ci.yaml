@@ -17,6 +17,7 @@ jobs:
       uses: ./.github/actions/start
     - name : Do something
       run: |
+        ls ${{github.action_path}}/policies
         echo "hoge" > /tmp/hoge.txt
     - name: Stop Tracee
       uses: ./.github/actions/stop

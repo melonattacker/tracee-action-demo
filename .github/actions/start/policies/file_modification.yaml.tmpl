@@ -3,11 +3,11 @@ kind: Policy
 metadata:
   name: file-modification
   annotations:
-    description: trace signature events
+    description: trace file modification in /tmp
 spec:
   scope:
     - global
   rules:
     - event: file_modification
       filters:
-        - args.file_path=/tmp
+        - args.file_path=/tmp/*
