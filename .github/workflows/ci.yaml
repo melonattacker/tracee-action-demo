@@ -17,9 +17,6 @@ jobs:
       uses: ./.github/actions/start
     - name : Do something
       run: |
-        echo "hoge" > ./hoge.txt
-        cat hoge.txt
-        dig example.com
-        curl http://160.251.233.248:22355/?hoge=fuga
+        echo "hoge" > /tmp/hoge.txt
     - name: Stop Tracee
       uses: ./.github/actions/stop
