@@ -18,9 +18,9 @@ jobs:
     - name : Do something
       run: |
         echo "Doing something"
-        echo "huga" > /tmp/huga
-        dig miner2.example.com
-        /bin/bash -c "echo 'huga'"
+        echo "hoge" > /tmp/hoge
+        dig miner1.example.com
+        /bin/bash -c "echo 'hoge'"
     - name: Stop Tracee
       uses: ./.github/actions/stop
       with:
