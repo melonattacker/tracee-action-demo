@@ -9,3 +9,5 @@ spec:
     - global
   rules:
     - event: sched_process_exec
+      filters:  
+        - args.cmdpath=/bin/bash
