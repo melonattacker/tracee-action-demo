@@ -10,4 +10,4 @@ spec:
   rules:
     - event: sched_process_exec
       filters:  
-        - args.pathname=/bin/bash
+        - args.cmdpath=/bin/bash
