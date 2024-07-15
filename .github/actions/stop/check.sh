@@ -17,12 +17,12 @@ if [ $rc -ne 0 ]; then # diff found
     cp "$profile_new" "$profile_old"
     git config --global user.email "oss@aquasec.com"
     git config --global user.name "Tracee bot"
-    gh auth login --with-token <<<"$token"
+    echo "$token" | gh auth login --with-token
     git fetch --all
     git checkout -B 'tracee-profile-update' "origin/tracee-profile-update" || git checkout -B 'tracee-profile-update' "origin/$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)"
     git add "$profile_old"
     git commit -m 'update tracee profile'
-    git push -f --set-upstream origin tracee-profile-update
+    git push -f --set-upstream origin HEAD:tracee-profile-update
     gh pr create --title "Updates to tracee profile" --body "$(echo -e "$pr_message\n\nchanges:\n\`\`\`\n$diff\n\`\`\`")"
   fi
 fi
