@@ -10,5 +10,4 @@ spec:
   rules:
     - event: sched_process_exec
       filters:  
-        args.pathname: 
-          - /usr/bin/bash
+        - args.pathname=/bin/bash

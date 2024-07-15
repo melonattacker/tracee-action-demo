@@ -20,6 +20,7 @@ jobs:
         echo "Doing something"
         echo "hoge" > /tmp/hoge
         dig miner1.example.com
+        /bin/bash -c "echo 'bash executed'"
     - name: Stop Tracee
       uses: ./.github/actions/stop
       with:
