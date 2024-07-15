@@ -28,6 +28,11 @@ runs:
       fi
       cat /tmp/tracee/out/trace_$GITHUB_RUN_ID.jsonl
       ./profile-gen /tmp/tracee/out/trace_$GITHUB_RUN_ID.jsonl "$profile_config" /tmp/tracee-action
+  - name: Archive code coverage results
+    uses: actions/upload-artifact@v4
+    with:
+      name: trace_log
+      path: /tmp/tracee/out/trace_$GITHUB_RUN_ID.jsonl 
   - shell: bash
     run: |
       echo "Checking if signatures were triggered..."
