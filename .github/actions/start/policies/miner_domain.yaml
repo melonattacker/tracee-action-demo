@@ -1,0 +1,11 @@
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: miner-domain
+  annotations:
+    description: trace miner domain events
+spec:
+  scope:
+    - global
+  rules:
+    - event: miner_domain
