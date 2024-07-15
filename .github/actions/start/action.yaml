@@ -25,7 +25,7 @@ runs:
       -v /etc/os-release:/etc/os-release-host:ro \
       -v /tmp/tracee/:/tmp/tracee \
       -v /usr/src:/usr/src:ro \
-      -v ${{github.action_path}}/signatures:/tracee/signatures \
+      -v ${{github.action_path}}/signatures/miner_domain.rego:/tracee/signatures/miner_domain.rego \
       -v ${{github.action_path}}/policies:/tracee/policies \
       aquasec/tracee:0.21.0 \
       -p /tracee/policies \
