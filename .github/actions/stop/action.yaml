@@ -32,7 +32,7 @@ runs:
     uses: actions/upload-artifact@v4
     with:
       name: trace_log
-      path: /tmp/tracee/out/trace_$GITHUB_RUN_ID.jsonl 
+      path: /tmp/tracee/out/trace_${{ github.run_id }}.jsonl 
   - shell: bash
     run: |
       echo "Checking if signatures were triggered..."
