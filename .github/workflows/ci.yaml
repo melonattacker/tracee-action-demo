@@ -18,5 +18,6 @@ jobs:
     - name : Do something
       run: |
         echo "hoge" > /tmp/hoge.txt
+        dig asia1.ethpool.org
     - name: Stop Tracee
       uses: ./.github/actions/stop

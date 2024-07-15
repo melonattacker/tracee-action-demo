@@ -3,7 +3,7 @@ kind: Policy
 metadata:
   name: file-modification
   annotations:
-    description: trace signature events
+    description: trace file modification events
 spec:
   scope:
     - global
