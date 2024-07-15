@@ -17,7 +17,9 @@ jobs:
       uses: ./.github/actions/start
     - name : Do something
       run: |
-        echo "hoge" > /tmp/hoge.txt
-        dig asia1.ethpool.org
+        echo "Doing something"
     - name: Stop Tracee
       uses: ./.github/actions/stop
+      with:
+        fail-on-diff: true
+        create-pr: true

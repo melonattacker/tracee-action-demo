@@ -17,9 +17,9 @@ tracee_selected_events[eventSelector] {
 }
 
 domains := [
-	"asia1.ethpool.org",
-	"ca.minexmr.com",
-	"cn.stratum.slushpool.com",
+	"miner1.example.com",
+	"miner2.example.com",
+	"miner3.example.com",
 ]
 
 tracee_match {
